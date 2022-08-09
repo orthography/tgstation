@@ -39,8 +39,10 @@
 
 /datum/outfit/job/prisoner/pre_equip(mob/living/carbon/human/H)
 	..()
+	var/bracelet = /obj/item/restraints/legcuffs/ankle_bracelet
 	if(prob(1)) // D BOYYYYSSSSS
 		head = /obj/item/clothing/head/beanie/black/dboy
+	H.equip_to_slot(bracelet, ITEM_SLOT_LEGCUFFED)
 
 /datum/outfit/job/prisoner/post_equip(mob/living/carbon/human/new_prisoner, visualsOnly)
 	. = ..()

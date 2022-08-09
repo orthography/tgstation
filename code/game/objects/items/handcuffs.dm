@@ -539,3 +539,74 @@
 	. = ..()
 	if(effectReference)
 		QDEL_NULL(effectReference)
+
+/**
+ * # Ankle Bracelet
+ *
+ * Used to track and control prisoners.
+ */
+/obj/item/restraints/legcuffs/ankle_bracelet
+	name = "prisoner ankle bracelet"
+	desc = "An ankle bracelet used by security to tag prisoners assigned for perma brig duty. It has a warning label not to tamper with it..."
+	icon_state = "ankle_bracelet"
+	var/hacked = FALSE //hacked bracelets can be put on anyone regardless of prisoner status
+	var/enabled = FALSE //bracelets will enable upon entering brig for the first time, or registration by the warden.
+
+//attaching to a prisoner
+/obj/item/restraints/legcuffs/ankle_bracelet/attack(mob/living/carbon/human/target, mob/living/user)
+	var/prison_id = /obj/item/card/id/advanced/prisoner
+	if((prison_id in target.get_all_contents()) && in_brig(target) || hacked == TRUE)
+		if((prison_id in target.get_all_contents()) || hacked == TRUE)
+			var/delay = 4 SECONDS
+			if(user == target)
+				delay = 0
+			else
+				target.visible_message(span_danger("[user] is trying to put a [src] on [target]!"), \
+					span_userdanger("[user] is trying to put a [src] on you!"))
+			if(do_after(user, delay, target = target))
+				if(user == target) // okay, but why would you do that to yourself?
+					to_chat(user, span_notice("You attach a [src] to [target]."))
+					attach_bracelet(target)
+				else
+					target.visible_message(target, span_danger("[user] attaches a [src] on [target]!"), \
+						span_userdanger("[user] attached a [src] to you!"))
+					attach_bracelet(target)
+		else
+			to_chat(user, span_notice("For employee safty, ankle trackers can only be placed on registered prisoners."))
+	else
+		to_chat(user, span_notice("For employee safty, ankle trackers can only be placed on registered prisoners who are in the brig."))
+
+/obj/item/restraints/legcuffs/ankle_bracelet/proc/attach_bracelet(mob/living/carbon/C)
+	if(!C.legcuffed && C.num_legs >= 2)
+		C.equip_to_slot(src, ITEM_SLOT_LEGCUFFED)
+		SSblackbox.record_feedback("tally", "handcuffs", 1, type)
+		playsound(src, 'sound/weapons/cablecuff.ogg', 50, TRUE)
+
+/obj/item/restraints/legcuffs/ankle_bracelet/proc/in_brig(mob/living/target)
+	var/in_brig = get_area(target) //checks if the person is in the brig/gulag
+	var/brig = list(/area/station/security, /area/mine/laborcamp)
+	if(in_brig in brig)
+		return TRUE
+	else
+		return FALSE
+
+/obj/item/restraints/legcuffs/ankle_bracelet/attacked_by(obj/item/attacking_item, mob/living/user)
+	if(istype(attacking_item, /obj/item/multitool))
+		if(hacked == FALSE)
+			to_chat(user, span_notice("You ignore the warning lable, beginning to tamper with the electronics inside the [src]."))
+			if(do_after(user, 6 SECONDS, target = user))
+				if(prob(25)) //should've listened to the warning label
+					user.visible_message(span_danger("[user]'s fingers are caught by the locking mechanism snapping them!"), \
+						span_userdanger("Your fingers are crushed by the locking mechanism!"))
+					user.apply_damage(10, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+					return
+				to_chat(user, span_notice("You hear the locking mechanism spasms before unbolting, the safty light turns red!"))
+				hacked = TRUE
+				return
+		else if(hacked == TRUE)
+			to_chat(user, span_notice("You renable [src]'s safty on the locking mechanism."))
+			hacked = FALSE
+			return
+	else
+		return
+
