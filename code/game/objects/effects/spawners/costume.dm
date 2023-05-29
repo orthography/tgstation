@@ -60,6 +60,13 @@
 		/obj/item/clothing/glasses/blindfold,
 	)
 
+/obj/effect/spawner/costume/combine
+	name = "combine costume spawner"
+	items = list(
+		/obj/item/clothing/under/costume/combinearmor,
+		/obj/item/clothing/head/costume/combinehelmet,
+		/obj/item/clothing/shoes/costume/combineboots,
+	)
 
 /obj/effect/spawner/costume/butler
 	name = "butler costume spawner"

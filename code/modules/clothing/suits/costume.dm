@@ -129,6 +129,14 @@
 	flags_inv = HIDESHOES|HIDEJUMPSUIT
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen)
 
+/obj/item/clothing/suit/costume/combinearmor
+	name = "combined suit"
+	desc = "Nanotrasen got their hands on this surplus armor after fighting off an invasion in Spinward Sector."
+	icon_state = "combinearmor"
+	inhand_icon_state = "armor"
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
+	flags_inv = HIDEGLOVES|HIDEJUMPSUIT
+
 /obj/item/clothing/suit/costume/chickensuit
 	name = "chicken suit"
 	desc = "A suit made long ago by the ancient empire KFC."

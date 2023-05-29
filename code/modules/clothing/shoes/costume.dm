@@ -35,6 +35,12 @@
 	icon_state = "bsing"
 	equip_delay_other = 50
 
+/obj/item/clothing/shoes/combineboots
+	name = "combined boots"
+	desc = "Made for chasing down those pesky scientists."
+	icon_state = "combineboots"
+	inhand_icon_state = "jackboots"
+
 /obj/item/clothing/shoes/bronze
 	name = "bronze boots"
 	desc = "A giant, clunky pair of shoes crudely made out of bronze. Why would anyone wear these?"

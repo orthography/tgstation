@@ -55,6 +55,14 @@
 	desc = "Just like from one of those chinese cartoons!"
 	icon_state = "maid_headband"
 
+/obj/item/clothing/head/costume/combinehelmet
+	name = "combined helmet"
+	desc = "We had an Intern buff out all the crowbar marks."
+	icon_state = "combinehelmet"
+	inhand_icon_state = null
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+
 /obj/item/clothing/head/costume/chicken
 	name = "chicken suit head"
 	desc = "Bkaw!"
